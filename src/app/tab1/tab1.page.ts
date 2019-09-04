@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { BudgetService } from '../services/budget.service';
+import { BudgetEntry } from '../entity/budget-entry';
+import { Events } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab1',
@@ -7,6 +10,15 @@ import { Component } from '@angular/core';
 })
 export class Tab1Page {
 
-  constructor() {}
+  public budgetList:Array<BudgetEntry> = [] ;
 
+  constructor(private events:Events){
+
+    //Abonement à l'événement d'une dépense
+    this.events.subscribe("event.budget.new",(data)=>{
+        let budgetInfo = JSON.parse(data);
+        this.budgetList.push(budgetInfo);
+
+      });
+  }
 }
